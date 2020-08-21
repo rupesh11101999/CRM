@@ -132,7 +132,6 @@ def customer(request, pk_test):
 
 
 @login_required(login_url='login')
-@allowed_users(allowed_roles=['admin'])
 def createOrder(request, pk):
 	OrderFormSet = inlineformset_factory(Customer, Order, fields=('product', 'status'), extra=10 )
 	customer = Customer.objects.get(id=pk)
@@ -145,7 +144,10 @@ def createOrder(request, pk):
 		if formset.is_valid():
 			formset.save()
 			## IMP: If we submit the form, redirect us to the dashboard
-			return redirect('/')
+			if request.user.is_staff:
+				return redirect('/')
+			else:
+				return redirect('user-page')
 
 	context = {'form':formset}
 	return render(request, 'accounts/order_form.html', context)

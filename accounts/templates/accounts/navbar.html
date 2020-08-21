@@ -23,7 +23,10 @@
         <a class="nav-link" href="{% url 'products' %}">Products</a>
       </li>
       {% else %}
-       <li class="nav-item">
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'create_order' request.user.customer.id %}">Place Order</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="{% url 'account' %}">Settings</a>
       </li>
       {% endif %}
